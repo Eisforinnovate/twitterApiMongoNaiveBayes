@@ -1,25 +1,40 @@
-import twitter
 import json
 import io
 import pymongo
+import tweepy
+
+
 
 def oauth_login():
     
-    CONSUMER_KEY = 'NQE0xRVln0KXbuNd1NJZ1cxVf'
-    CONSUMER_SECRET = 'O4tjl8okFTuq70H83ovOCa7ZfKnAtcHxg2lx0rsXDSEBGUi7ag'
-    OAUTH_TOKEN = '340011029-Q3AS0aXwaLihZP2emmGVnMPioCev78lPr5AHTn9t'
-    OAUTH_TOKEN_SECRET = 'gQzh70Lc3eDFdsImicXOpAe36gc10ZXyqwsWd2NJb8g8K'
+    CONSUMER_KEY = 'GhpadNJI8gnivNp3uQhKbKxHw'
+    CONSUMER_SECRET = '3cMBNGh43qI6p14dw3QS9uMAlkhraALcSNUac9ZAv8zOGaoVEA'
+    OAUTH_TOKEN = '340011029-iEPmCa3bT1ylYSAE57CSZgwJwjgHbZeCYKsifNOr'
+    OAUTH_TOKEN_SECRET = 'v6vafPqJzDkjxZmAfDK7iY8c5jqN38sHVgoE44jJiRB5o'
     
-    auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET,
-                               CONSUMER_KEY, CONSUMER_SECRET)
+    #auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET,
+     #                          CONSUMER_KEY, CONSUMER_SECRET)
     
-    twitter_api = twitter.Twitter(auth=auth)
-    return twitter_api
+    #auth = tweepy.OAuthHandler(OAUTH_TOKEN, OAUTH_TOKEN_SECRET,
 
-def twitter_search(twitter_api, q, max_results=1000, **kw):
+    dir(tweepy)
+    auth= tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth.set_access_token(OAUTH_TOKEN,OAUTH_TOKEN_SECRET)
+    return tweepy.API(auth)
+    #twitter_api = twitter.Twitter(auth=auth)
+    #return twitter_api
+
+def twitter_search(twitter_api, q, max_results=10, **kw):
  
-    search_results = twitter_api.search.tweets(q=q, count=100, **kw)
+    #search_results = twitter_api.search.tweets(q=q, count=100, max_results=max_results)
     
+    search_results = twitter_api.search(q=q)
+
+    texts = [s.text.encode('utf8') for s in search_results]
+    return texts
+
+    return
+
     statuses = search_results['statuses']
 
     max_results = min(1000, max_results)
@@ -53,15 +68,16 @@ def save_to_mongo(data, mongo_db, mongo_db_coll, **mongo_conn_kw):
     
     return coll.insert(data)
 
-twitter_api = oauth_login()
+
+tweep = oauth_login()
 print "Authed to Twitter. Searching now..."
 
-q = "#:("
+q = '%23%3A('
 
-results = twitter_search(twitter_api, q, max_results=1000)
-p = "#:("
+results = twitter_search(twitter_api, q, max_results=10)
+p = '#:('
 save_to_mongo(results, 'search_results', q)
 
-results2 = twitter_search(twitter_api, p, max_results=1000)
+results2 = twitter_search(twitter_api, p, max_results=10)
 print "Results retrieved. Saving to MongoDB..." 
 save_to_mongo(results2, 'search_results', p)
