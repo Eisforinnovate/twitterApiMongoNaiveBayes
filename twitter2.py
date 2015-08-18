@@ -2,7 +2,7 @@ import json
 import io
 import pymongo
 import tweepy
-
+from tweepy.auth import OAuthHandler
 
 
 def oauth_login():
