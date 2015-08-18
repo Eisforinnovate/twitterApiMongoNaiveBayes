@@ -56,11 +56,12 @@ def save_to_mongo(data, mongo_db, mongo_db_coll, **mongo_conn_kw):
 twitter_api = oauth_login()
 print "Authed to Twitter. Searching now..."
 
-q = "#:)"
-#p = "#:("
-results = twitter_search(twitter_api, q, max_results=1000)
-#results2 = twitter_search(twitter_api, p, max_results=1000)
-print "Results retrieved. Saving to MongoDB..." 
+q = "#:("
 
+results = twitter_search(twitter_api, q, max_results=1000)
+p = "#:("
 save_to_mongo(results, 'search_results', q)
-#save_to_mongo(results2, 'search_results', p)
+
+results2 = twitter_search(twitter_api, p, max_results=1000)
+print "Results retrieved. Saving to MongoDB..." 
+save_to_mongo(results2, 'search_results', p)
