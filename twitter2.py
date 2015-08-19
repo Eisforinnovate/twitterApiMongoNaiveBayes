@@ -2,15 +2,16 @@ import json
 import io
 import pymongo
 import tweepy
+import OAuth
 from tweepy.auth import OAuthHandler
 
 
 def oauth_login():
     
-    CONSUMER_KEY = 'GhpadNJI8gnivNp3uQhKbKxHw'
-    CONSUMER_SECRET = '3cMBNGh43qI6p14dw3QS9uMAlkhraALcSNUac9ZAv8zOGaoVEA'
-    OAUTH_TOKEN = '340011029-iEPmCa3bT1ylYSAE57CSZgwJwjgHbZeCYKsifNOr'
-    OAUTH_TOKEN_SECRET = 'v6vafPqJzDkjxZmAfDK7iY8c5jqN38sHVgoE44jJiRB5o'
+    CONSUMER_KEY = '###w'
+    CONSUMER_SECRET = '###'
+    OAUTH_TOKEN = '####'
+    OAUTH_TOKEN_SECRET = '###'
     
     #auth = twitter.oauth.OAuth(OAUTH_TOKEN, OAUTH_TOKEN_SECRET,
      #                          CONSUMER_KEY, CONSUMER_SECRET)
